@@ -36,6 +36,14 @@ function SignIn() {
         }
     };
 
+    useEffect(() => {
+        if (isConnected && address) {
+            userExists(address).catch((_) => {
+                router.push('/signup');
+            });
+        }
+    }, [isConnected, address]);
+
     return (
         <>
             <main className={`${styles.main} ${inter.className}`}>

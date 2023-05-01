@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { Account, Connect } from '@/components';
 import { useAccount } from 'wagmi';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,15 +23,15 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className={`${styles.main} ${inter.className}`}>
+            <main>
                 <div className={styles.description}>
                     <p>
-                        Get started by editing&nbsp;
-                        <code className={styles.code}>src/pages/index.tsx</code>
+                        Get started by &nbsp;
                         <Connect />
                         {isConnected && (
                             <>
                                 <Account />
+                                <Link href={'/signin'}>➡️ Sign In ⬅️</Link>
                             </>
                         )}
                     </p>
