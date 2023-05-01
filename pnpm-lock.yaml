@@ -103,12 +103,18 @@ importers:
 
   frontend:
     dependencies:
+      ethers:
+        specifier: ^6.3.0
+        version: 6.3.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      siwe:
+        specifier: ^2.1.4
+        version: 2.1.4(ethers@6.3.0)
     devDependencies:
       '@types/react':
         specifier: ^18.0.28
