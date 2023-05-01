@@ -4,7 +4,8 @@
  */
 export async function getNonce() {
     /// Get environment variables
-    const NEXT_PUBLIC_API_URL: string | undefined = import.meta.env.NEXT_PUBLIC_API_URL;
+    const NEXT_PUBLIC_API_URL: string | undefined = import.meta.env
+        .NEXT_PUBLIC_API_URL;
     if (!NEXT_PUBLIC_API_URL) {
         throw new Error('NEXT_PUBLIC_API_URL is undefined');
     }

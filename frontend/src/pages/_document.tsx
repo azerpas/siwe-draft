@@ -1,13 +1,21 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Account } from '@/components';
+import { Html, Head, Main, NextScript } from 'next/document';
+import { useAccount } from 'wagmi';
 
 export default function Document() {
-  return (
-    <Html lang="en">
-      <Head />
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  )
+    const { isConnected } = useAccount();
+    return (
+        <Html lang="en">
+            <Head />
+            <body>
+                {isConnected && (
+                    <>
+                        <Account />
+                    </>
+                )}
+                <Main />
+                <NextScript />
+            </body>
+        </Html>
+    );
 }

@@ -22,7 +22,11 @@ export async function createSiweMessage(address: string, statement: string) {
     return message.prepareMessage();
 }
 
-export async function signUpWithEthereum(message: string, signature: string, username: string) {
+export async function signUpWithEthereum(
+    message: string,
+    signature: string,
+    username: string,
+) {
     const res = await fetch(`${NEXT_PUBLIC_API_URL}/user/signup`, {
         method: 'POST',
         headers: {
@@ -31,7 +35,8 @@ export async function signUpWithEthereum(message: string, signature: string, use
         body: JSON.stringify({ message, signature, username }),
         credentials: 'include',
     });
-    console.log(await res.text());
+
+    return res.status === 200;
 }
 
 export async function signInWithEthereum(message: string, signature: string) {
