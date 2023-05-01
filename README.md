@@ -3,6 +3,10 @@
 SIWE (Sign-In-With-Ethereum) Authentication with NestJS, Vite, SQLite, Prisma, ...
 
 ## Usage
+```
+cp ./frontend/.env.example /frontend/.env
+cp ./backend/.env.example /backend/.env
+```
 ```sh
 docker compose up -d
 ```
