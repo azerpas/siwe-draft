@@ -10,6 +10,11 @@ export class AppController {
         private readonly userService: UserService,
     ) {}
 
+    @Get('nonce')
+    async getNonce(): Promise<string> {
+        return this.appService.getNonce();
+    }
+
     @Get()
     getHello(): string {
         return this.appService.getHello();
