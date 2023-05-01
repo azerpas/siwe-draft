@@ -9,7 +9,6 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 8081
+EXPOSE 5151
 
-CMD ["pnpm", "vite:dev"]
-
+CMD ["pnpm", "next:dev", "-p", "5151"]
