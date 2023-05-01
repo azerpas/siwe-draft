@@ -16,6 +16,7 @@ COPY . .
 #RUN pnpm exec prisma generate
 RUN pnpm exec prisma generate
 RUN pnpm exec prisma db push
+# Should be using prisma migrate deploy on production
 
 
 EXPOSE 3000
