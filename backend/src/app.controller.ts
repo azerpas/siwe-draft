@@ -1,16 +1,13 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
 
 @Controller()
 export class AppController {
     constructor(
         private readonly appService: AppService,
         private readonly userService: UserService,
-        private authService: AuthService,
     ) {}
 
     @Get('nonce')
@@ -18,9 +15,13 @@ export class AppController {
         return this.appService.getNonce();
     }
 
-    @Get()
-    getHello(): string {
-        return this.appService.getHello();
+    @Get('user')
+    async getUser(@Query('address') address: string): Promise<string> {
+        if (await this.userService.user({ address })) {
+            return '';
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     @Get('users')
@@ -28,9 +29,8 @@ export class AppController {
         return this.userService.users({});
     }
 
-    @UseGuards(AuthGuard)
-    @Get('profile')
-    getProfile(@Request() req: Request & { user: User }) {
-        return req.user;
+    @Get()
+    getHello(): string {
+        return this.appService.getHello();
     }
 }

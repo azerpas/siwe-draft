@@ -1,5 +1,16 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    HttpCode,
+    HttpStatus,
+    Post,
+    Get,
+    UseGuards,
+    Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
+import { User } from '@prisma/client';
 
 @Controller('user')
 export class AuthController {
@@ -18,8 +29,17 @@ export class AuthController {
         );
     }
 
+    @HttpCode(HttpStatus.OK)
     @Post('signin')
-    async signIn() {
-        return 'signIn';
+    async signIn(@Body() signInDto: Record<string, any>) {
+        const { address, message, nonce, signature } = signInDto;
+        return this.authService.signIn(address, message, signature, nonce);
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Get('profile')
+    getProfile(@Request() req: Request & { user: User }) {
+        return req.user;
     }
 }

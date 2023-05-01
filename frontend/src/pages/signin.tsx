@@ -5,63 +5,42 @@ import React, { useEffect } from 'react';
 import { useAccount, useSignMessage } from 'wagmi';
 import {
     createSiweMessage,
-    signUpWithEthereum,
+    signInWithEthereum,
     userExists,
 } from '@/utils/auth';
 import { Connect } from '@/components';
 import { useRouter } from 'next/router';
 
-type FormValues = {
-    username: string;
-};
-
 const inter = Inter({ subsets: ['latin'] });
 
-function SignUp() {
+function SignIn() {
     const { isConnected, address } = useAccount();
+    const [error, setError] = React.useState<string | null>(null);
     const { signMessageAsync } = useSignMessage();
     const router = useRouter();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setError,
-    } = useForm<FormValues>();
 
-    const onSubmit = handleSubmit(async (data) => {
+    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (!isConnected || !address) {
-            setError('username', { message: 'Please connect your wallet' });
+            setError('Please connect your wallet');
             return;
         }
         const message = await createSiweMessage(
             address,
-            `Sign up for ${data.username}`,
+            `Sign In for ${address}`,
         );
         const signature = await signMessageAsync({ message });
-        const res = await signUpWithEthereum(
-            message,
-            signature,
-            data.username,
-            address,
-        );
+        const res = await signInWithEthereum(message, signature, address);
         if (res) {
             router.push('/profile');
         }
-    });
-
-    useEffect(() => {
-        if (isConnected && address) {
-            userExists(address).then((_) => {
-                router.push('/signin');
-            });
-        }
-    }, [isConnected, address]);
+    };
 
     return (
         <>
             <main className={`${styles.main} ${inter.className}`}>
                 <div>
-                    <h1>Sign Up</h1>
+                    <h1>Sign In</h1>
                     {!isConnected && (
                         <>
                             <p>Start by connecting your wallet</p>
@@ -70,16 +49,8 @@ function SignUp() {
                     )}
                     {isConnected && (
                         <form onSubmit={onSubmit}>
-                            <label htmlFor="username">Username</label>
-                            <input
-                                {...register('username')}
-                                placeholder="@azerpas"
-                            />
-                            {errors?.username && (
-                                <p>{errors.username.message}</p>
-                            )}
-
-                            <button type="submit">Sign Up</button>
+                            <button type="submit">Sign In</button>
+                            {error && <p>{error}</p>}
                         </form>
                     )}
                 </div>
@@ -88,4 +59,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default SignIn;

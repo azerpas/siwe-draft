@@ -19,11 +19,6 @@ export class AuthService {
         username: string,
     ): Promise<any> {
         const SIWEObject = new SiweMessage(message);
-        console.log(`address: ${address}`);
-        console.log(`message: ${message}`);
-        console.log(`username: ${username}`);
-        console.log(`nonce: ${nonce}`);
-        console.log(`signature: ${signature}`);
         const verified = await SIWEObject.verify({ nonce, signature });
         if (!verified) {
             throw new UnauthorizedException('Signature is not valid');
@@ -34,7 +29,9 @@ export class AuthService {
         });
         const payload: User = { username: user.username, id: user.id, address };
         return {
-            access_token: await this.jwtService.signAsync(payload),
+            access_token: await this.jwtService.signAsync(payload, {
+                expiresIn: '1d',
+            }),
         };
     }
 
@@ -55,7 +52,9 @@ export class AuthService {
         }
         const payload: User = { username: user.username, id: user.id, address };
         return {
-            access_token: await this.jwtService.signAsync(payload),
+            access_token: await this.jwtService.signAsync(payload, {
+                expiresIn: '1d',
+            }),
         };
     }
 }
