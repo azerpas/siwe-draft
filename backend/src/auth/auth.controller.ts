@@ -1,5 +1,4 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { SiweMessage } from 'siwe';
 import { AuthService } from './auth.service';
 
 @Controller('user')
@@ -13,8 +12,8 @@ export class AuthController {
         return this.authService.signUp(
             address,
             message,
-            nonce,
             signature,
+            nonce,
             username,
         );
     }
