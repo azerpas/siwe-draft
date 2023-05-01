@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import { getNonce } from './utils/nonce';
 
 function App() {
     const [count, setCount] = useState(0);
+    useEffect(() => {
+        getNonce().then((nonce) => {
+            console.log('nonce');
+            console.log(nonce);
+        });
+    }, []);
 
     return (
         <>

@@ -1,7 +1,9 @@
 module.exports = {
   env: { browser: true, es2020: true },
   extends: [
-    'custom',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
     'plugin:react-hooks/recommended',
   ],
   parserOptions: {
@@ -10,9 +12,22 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 'latest',
   },
+  ignorePatterns: ['.eslintrc.cjs'],
+  env: {
+    node: true,
+    jest: true,
+  },
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  plugins: [
+    'react-refresh',
+    '@typescript-eslint/eslint-plugin'
+  ],
   rules: {
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'prettier/prettier': ['error', { doubleQuote: false, singleQuote: true, tabWidth: 4, trailingComma: 'all' }],
     'react-refresh/only-export-components': 'warn',
   },
 }
